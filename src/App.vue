@@ -1,8 +1,8 @@
 <template>
-  <div id="app">
+  <div id="app" >
     <div class='sidebar left' :class='{aboutVisible:aboutVisible}'>
-      <a id='l' href='#' @click.prevent='aboutVisible = !aboutVisible'>L</a>
-      <div class='about'  >
+      <a id='l' href='#' @click.stop.prevent='aboutVisible = !aboutVisible'>L</a>
+      <div class='about' >
         <div v-html='about && about.content_html'></div>
         <!-- Begin MailChimp Signup Form -->
         <div id="mc_embed_signup">
@@ -28,13 +28,13 @@
     <div class='sidebar right'>
       <a id='c' href='#' @click.prevent=''>C</a>
     </div>
-    <div class='issues' >
-      <a v-for='issue in issues' target='_blank' :href='issue.attachment'>
-        <div>
+    <div class='issues' @click='aboutVisible = false'>
+      <div v-for='issue in issues'>
+        <a  target='_blank' :href='issue.attachment'>
           <div :style='"background-image: url(" + issue.issueFG.display.url +")"'></div>
           <div :style='"background-image: url(" + issue.issueBG.display.url +")"'></div>
-        </div>
-      </a>
+        </a>
+      </div>
     </div>
   </div>
 </template>
@@ -50,25 +50,7 @@ export default {
     }
   },
   mounted () {
-    this.$axios.get('https://api.are.na/v2/channels/' + this.channel).then((result) => {
-      this.content = result.data && result.data.contents
-      for (var i = 0; i < this.content.length; i++) {
-        var content = this.content[i]
-        if (content.class === 'Channel' && !content.contents) {
-          this.$axios.get('https://api.are.na/v2/channels/' + content.slug).then((result) => {
-            var key = this.content.findIndex((c) => {
-              return c.id === result.data.id
-            })
-            this.content[key].contents = result.data.contents
-            // this.content.splice(key, 1, result.data)
-          }).catch((err) => {
-            console.error(err)
-          })
-        }
-      }
-    }).catch((err) => {
-      console.error(err)
-    })
+    this.queryChannel()
   },
   computed: {
     issues () {
@@ -89,6 +71,29 @@ export default {
     }
   },
   methods: {
+    queryChannel () {
+      this.$axios.get('https://api.are.na/v2/channels/' + this.channel).then((result) => {
+        this.content = result.data && result.data.contents
+        for (var i = 0; i < this.content.length; i++) {
+          var content = this.content[i]
+          if (content.class === 'Channel' && !content.contents) {
+            this.$axios.get('https://api.are.na/v2/channels/' + content.slug).then((result) => {
+              var key = this.content.findIndex((c) => {
+                return c.id === result.data.id
+              })
+              this.content[key].contents = result.data.contents
+              // this.content.splice(key, 1, result.data)
+            }).catch((err) => {
+              console.error(err)
+              this.queryChannel()
+            })
+          }
+        }
+      }).catch((err) => {
+        console.error(err)
+        this.queryChannel()
+      })
+    },
     attachment (channel) {
       return channel.contents.filter((block) => {
         return block.class === 'Attachment'
@@ -126,10 +131,12 @@ body {
   margin:0;
   background-color: black;
   color: white;
-  overflow: hidden;
 }
 a, a:hover, a:active, a:visited {
   text-decoration: none;
+}
+#app {
+  min-height:100vh;
 }
 .sidebar {
   position:fixed;
@@ -190,6 +197,7 @@ a, a:hover, a:active, a:visited {
   left:0px;
   transition: left ease 500ms;
   padding:0px 60px;
+  min-height:100vh;
   &.aboutVisible {
     left:320px;
   }
@@ -198,27 +206,79 @@ a, a:hover, a:active, a:visited {
     background-position: center center;
     background-repeat: no-repeat;
   }
-  a {
-    > div {
-      display: inline-block;
-      position:relative;
-      width: 220px;
-      height: 285px;
-      margin:40px 20px 0px 20px;
-     > div {
-        position: absolute;
-        top:0px;
-        left:0px;
-        width:100%;
-        height:100%;
-        &:first-of-type{
-          z-index:1;
-          transition: opacity 500ms ease;
-            &:hover {
-            opacity:0;
-          }
+
+  > div {
+    display: inline-block;
+    position:relative;
+    width: 220px;
+    height: 285px;
+    margin:40px 20px 0px 20px;
+    div {
+      position: absolute;
+      top:0px;
+      left:0px;
+      width:100%;
+      height:100%;
+      &:first-of-type{
+        z-index:1;
+        transition: opacity 500ms ease;
+          &:hover {
+          opacity:0;
         }
       }
+    }
+    
+  }
+}
+$tablet-min-width: 768px;
+@media only screen and (min-width : 0px) and (max-width : $tablet-min-width) {
+  .issues {
+      padding:60px 0px 100px 0px;
+
+      > div {
+        display:block;
+        margin:40px auto 0px auto;
+      }
+  }
+  .sidebar {
+    background-color: black;
+    &.left {
+
+      width:100vw;
+      height:60px;
+      left:0px;
+      border-right:0;
+      border-bottom:3px solid white;
+      z-index:3;
+      &.aboutVisible {
+        left:0px;
+        width:100vw;
+      }
+      .about {
+        position: absolute;
+        background-color: black;
+        height:calc( 100vh - 60px);
+        overflow: auto;
+        width:100vw;
+        z-index:3;
+        top:60px;
+        margin-top:0px;
+        left:-100vw;
+        transition: left 500ms ease;
+      }
+      &.aboutVisible .about {
+        left:0px;
+      } 
+    }
+    &.right {
+      z-index:2;
+      width:100%;
+      height:60px;
+      left:0px;
+      border-left:0;
+      border-top: 3px solid white;
+      top: inherit;
+      bottom:0px;
     }
   }
 }
