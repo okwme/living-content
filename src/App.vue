@@ -6,7 +6,7 @@
         <div v-html='about && about.content_html'></div>
         <!-- Begin MailChimp Signup Form -->
         <div id="mc_embed_signup">
-        <form action="//billyrennekamp.us4.list-manage.com/subscribe/post?u=31bb13f30ace8a3f55fd90d3f&amp;id=8c1fa3e2b1" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+        <form action="//adrianablidaru.us16.list-manage.com/subscribe/post?u=ba2d1310d042f6897c0421cea&amp;id=4a37b4b5fd" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
             <div id="mc_embed_signup_scroll">
           
         <div class="mc-field-group">
@@ -17,14 +17,12 @@
             <div class="response" id="mce-error-response" style="display:none"></div>
             <div class="response" id="mce-success-response" style="display:none"></div>
           </div>    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
-            <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_31bb13f30ace8a3f55fd90d3f_8c1fa3e2b1" tabindex="-1" value=""></div>
+            <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_ba2d1310d042f6897c0421cea_4a37b4b5fd" tabindex="-1" value=""></div>
             <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
             </div>
         </form>
         </div>
-
         <!--End mc_embed_signup-->
-
       </div>
     </div>
     <div class='sidebar right'>
