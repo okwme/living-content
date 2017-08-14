@@ -26,7 +26,7 @@
       </div>
     </div>
     <div class='sidebar right'>
-      <a id='c' href='#' @click.prevent=''>C</a>
+      <a id='c' href='mailto:info@livingcontent.online' target='_blank'>C</a>
     </div>
     <div class='issues' @click='aboutVisible = false'>
       <div v-for='issue in issues'>
