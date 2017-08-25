@@ -34,7 +34,7 @@
     </div>
     <div class='issues' @click='aboutVisible = false'>
       <div v-for='issue in issues'>
-        <a  target='_blank' :href='issue.attachment'>
+        <a  target='_blank' :href='issue && issue.attachment'>
           <div :style='"background-image: url(" + issue.issueFG.display.url +")"'></div>
           <div :style='"background-image: url(" + issue.issueBG.display.url +")"'></div>
         </a>
@@ -120,7 +120,7 @@ export default {
       }).pop()
     },
     attachmentURL (channel) {
-      return this.attachment(channel).attachment.url
+      return this.attachment(channel) && this.attachment(channel).attachment.url
     },
     attachmentIMG (channel) {
       return this.attachment(channel).image
