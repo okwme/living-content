@@ -167,14 +167,14 @@ a, a:hover, a:active, a:visited {
   > a {
     color: white;
     position: fixed;
-    font-size: 30px;
+    font-size: 48px;
     &#l {
-      top:10px;
+      top:2px;
       left:15px;
     }
     &#c {
-      bottom:10px;
-      right:15px;
+      bottom:0px;
+      right:11px;
     }
   }
   &.left {
