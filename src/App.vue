@@ -1,7 +1,11 @@
 <template>
   <div id="app" >
-    <div class='sidebar left' :class='{aboutVisible:aboutVisible}'>
-      <a id='l' href='#' @click.stop.prevent='aboutVisible = !aboutVisible'>L</a>
+    <div 
+    @mouseover='mouseover()'
+    @mouseleave='mouseleave()'
+    @click.stop.self='swap()'
+    class='sidebar left' :class='{aboutVisible:aboutVisible}'>
+      <a id='l' href='#' @click.self.prevent='swap()'>L</a>
       <div class='about' >
         <div v-html='about && about.content_html'></div>
         <!-- Begin MailChimp Signup Form -->
@@ -46,11 +50,15 @@ export default {
     return {
       aboutVisible: false,
       content: [],
-      channel: 'living-content-1502463185'
+      channel: 'living-content-1503648393',
+      touchscreen: false
     }
   },
   mounted () {
     this.queryChannel()
+    window.addEventListener('touchstart', () => {
+      this.touchscreen = true
+    })
   },
   computed: {
     issues () {
@@ -71,6 +79,18 @@ export default {
     }
   },
   methods: {
+    mouseover () {
+      if (this.touchscreen) return
+      this.aboutVisible = true
+    },
+    mouseleave () {
+      if (this.touchscreen) return
+      this.aboutVisible = false
+    },
+    swap () {
+      if (!this.touchscreen) return
+      this.aboutVisible = !this.aboutVisible
+    },
     queryChannel () {
       this.$axios.get('https://api.are.na/v2/channels/' + this.channel).then((result) => {
         this.content = result.data && result.data.contents
