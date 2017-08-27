@@ -164,6 +164,7 @@ a, a:hover, a:active, a:visited {
   top:0px;
   height:100vh;
   width:60px;
+  cursor: pointer;
   > a {
     color: white;
     position: fixed;
