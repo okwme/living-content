@@ -29,9 +29,11 @@
         <!--End mc_embed_signup-->
       </div>
     </div>
-    <div class='sidebar right'>
-      <a id='c' href='mailto:info@livingcontent.online' target='_blank'>C</a>
-    </div>
+    <a href='mailto:info@livingcontent.online' target='_blank'>
+      <div class='sidebar right'>
+        <span id='c' >C</span>
+      </div>
+    </a>
     <div class='issues' @click='aboutVisible = false'>
       <div v-for='issue in issues'>
         <a  target='_blank' :href='issue && issue.attachment'>
@@ -165,7 +167,7 @@ a, a:hover, a:active, a:visited {
   height:100vh;
   width:60px;
   cursor: pointer;
-  > a {
+  > a, > span {
     color: white;
     position: fixed;
     font-size: 48px;
