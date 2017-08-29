@@ -94,12 +94,12 @@ export default {
       this.aboutVisible = !this.aboutVisible
     },
     queryChannel () {
-      this.$axios.get('https://api.are.na/v2/channels/' + this.channel).then((result) => {
+      this.$axios.get('https://api.are.na/v2/channels/' + this.channel + '?d=' + new Date()).then((result) => {
         this.content = result.data && result.data.contents
         for (var i = 0; i < this.content.length; i++) {
           var content = this.content[i]
           if (content.class === 'Channel' && !content.contents) {
-            this.$axios.get('https://api.are.na/v2/channels/' + content.slug).then((result) => {
+            this.$axios.get('https://api.are.na/v2/channels/' + content.slug + '?d=' + new Date()).then((result) => {
               var key = this.content.findIndex((c) => {
                 return c.id === result.data.id
               })
