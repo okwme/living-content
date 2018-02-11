@@ -6,14 +6,9 @@
 </template>
 
 <script>
-import pdf from 'vue-pdf'
 export default {
-
   name: 'Issue',
   props: ['slug', 'issues'],
-  components: {
-    pdf
-  },
   data () {
     return {
 
