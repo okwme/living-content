@@ -5,9 +5,10 @@
     @mouseleave='mouseleave()'
     @click.stop.self='swap()'
     class='sidebar left' :class='{aboutVisible:aboutVisible}'>
-      <a id='l' href='#' @click.self.prevent='swap()'>L</a>
+      <router-link id='l' to='/' @click.self.prevent='swap()'>L</router-link>
       <div class='about' >
         <div v-html='about && about.content_html'></div>
+        <div><a target="_blank" href="https://www.instagram.com/livingcontent_online/"><img src="https://d2w9rnfcy7mm78.cloudfront.net/1656614/large_16c4dbeb3696765e96ee876bb330aa68.jpg"></a></div>
         <!-- Begin MailChimp Signup Form -->
         <div id="mc_embed_signup">
         <form action="//adrianablidaru.us16.list-manage.com/subscribe/post?u=ba2d1310d042f6897c0421cea&amp;id=4a37b4b5fd" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
@@ -15,7 +16,7 @@
           
         <div class="mc-field-group">
           <label for="mce-EMAIL"></label>
-          <input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL">
+          <input ref="email" type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL">
         </div>
           <div id="mce-responses" class="clear">
             <div class="response" id="mce-error-response" style="display:none"></div>
@@ -35,12 +36,7 @@
       </div>
     </a>
     <div class='issues' @click='aboutVisible = false'>
-      <div v-for='issue in issues'>
-        <a  target='_blank' :href='issue && issue.attachment'>
-          <div :style='"background-image: url(" + issue.issueFG.display.url +")"'></div>
-          <div :style='"background-image: url(" + issue.issueBG.display.url +")"'></div>
-        </a>
-      </div>
+      <router-view :issues="issues" />
     </div>
   </div>
 </template>
@@ -68,6 +64,8 @@ export default {
         return block.class === 'Channel' && block.contents
       }).map((channel) => {
         return {
+          slug: channel.slug,
+          alt: channel.title,
           attachment: this.attachmentURL(channel),
           issueBG: this.issueBG(channel),
           issueFG: this.issueFG(channel)
@@ -78,6 +76,11 @@ export default {
       return this.content.filter((block) => {
         return block.class === 'Text'
       }).pop()
+    }
+  },
+  watch: {
+    aboutVisible () {
+      if (this.aboutVisible) this.$refs.email.focus()
     }
   },
   methods: {
@@ -156,9 +159,14 @@ body {
 }
 a, a:hover, a:active, a:visited {
   text-decoration: none;
+  color: blue;
 }
 #app {
   min-height:100vh;
+  img.sm {
+    width: 0px;
+    height:0px;
+  }
 }
 .sidebar {
   position:fixed;
@@ -200,12 +208,15 @@ a, a:hover, a:active, a:visited {
         color: white;
         font-size:1rem;
         padding:0px;
-        line-height:1rem;
+        line-height:2rem;
         &[type='email'] {
           width:100%;
           border-bottom:1px solid white;
           margin-bottom:10px;
           margin-top:30px;
+        }
+        &:focus{
+            outline: none;
         }
       }
     }
@@ -224,13 +235,13 @@ a, a:hover, a:active, a:visited {
   &.aboutVisible {
     left:320px;
   }
-  div {
+   div {
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
   }
 
-  > div {
+  > div > div {
     display: inline-block;
     position:relative;
     width: 220px;
