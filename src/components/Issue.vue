@@ -21,7 +21,7 @@ export default {
         return issue.slug === this.slug
       })
       console.log(issue)
-      return issue && issue.attachment
+      return issue && issue.attachment.replace('http://', 'https://')
     }
   }
 }
