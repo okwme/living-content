@@ -16,11 +16,9 @@ export default {
   },
   computed: {
     attachment () {
-      console.log('attachment')
       let issue = this.issues.find((issue) => {
         return issue.slug === this.slug
       })
-      console.log(issue)
       return issue && issue.attachment.replace('http://', 'https://')
     }
   }
