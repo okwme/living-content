@@ -1,7 +1,7 @@
 <template>
     <div>
       <iframe :src="attachment"></iframe>
-      <span style="text-align:center"><a :href="attachment" target="_blank">Download</a></span>
+      <span style="text-align:center"><a download="download" :href="attachment" target="_blank">Download</a></span>
     </div>
 </template>
 
