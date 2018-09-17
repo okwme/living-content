@@ -1,6 +1,6 @@
 <template>
   <div id="app" >
-    <div 
+    <div
     @mouseover='mouseover()'
     @mouseleave='mouseleave()'
     @click.stop.self='swap()'
@@ -13,7 +13,7 @@
         <div id="mc_embed_signup">
         <form action="//adrianablidaru.us16.list-manage.com/subscribe/post?u=ba2d1310d042f6897c0421cea&amp;id=4a37b4b5fd" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
             <div id="mc_embed_signup_scroll">
-          
+
         <div class="mc-field-group">
           <label for="mce-EMAIL"></label>
           <input ref="email" type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL">
@@ -62,6 +62,8 @@ export default {
     issues () {
       return this.content.filter((block) => {
         return block.class === 'Channel' && block.contents
+      }).sort((a, b) => {
+        return parseInt(a.position) < parseInt(b.position) ? 1 : -1
       }).map((channel) => {
         return {
           slug: channel.slug,
@@ -197,7 +199,7 @@ a, a:hover, a:active, a:visited {
     &.aboutVisible {
       width:320px;
       left:0px;
-    } 
+    }
     .about {
       width:320px;
       margin-top:60px;
@@ -261,7 +263,7 @@ a, a:hover, a:active, a:visited {
         }
       }
     }
-    
+
   }
 }
 $tablet-min-width: 768px;
@@ -302,7 +304,7 @@ $tablet-min-width: 768px;
       }
       &.aboutVisible .about {
         left:0px;
-      } 
+      }
     }
     &.right {
       z-index:2;
