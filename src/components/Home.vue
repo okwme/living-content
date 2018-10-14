@@ -1,5 +1,6 @@
 <template>
   <div>
+    <a href="/live"><img id="banner" src="/static/banner.gif"></a>
     <div :key="issue.alt" v-for='issue in issues'>
 <!--       <a  target='_blank' :href='issue && issue.attachment'> -->
       <router-link :to="'/issue/' + issue.slug">
@@ -28,4 +29,9 @@ export default {
 </script>
 
 <style lang="css" scoped>
+#banner {
+  max-width:100%;
+  display:block;
+  margin:0 auto;
+}
 </style>
