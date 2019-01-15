@@ -5,7 +5,7 @@
     @mouseleave='mouseleave()'
     @click.stop.self='swap()'
     class='sidebar left' :class='{aboutVisible:aboutVisible}'>
-      <router-link id='l' to='/' @click.self.prevent='swap()'>L</router-link>
+      <router-link id='l' to='https://livingcontent.online' @click.self.prevent='swap()'>L</router-link>
       <div class='about' >
         <div v-html='about && about.content_html'></div>
         <div><a target="_blank" href="https://www.instagram.com/livingcontent_online/"><img src="https://d2w9rnfcy7mm78.cloudfront.net/1656614/large_16c4dbeb3696765e96ee876bb330aa68.jpg"></a></div>
