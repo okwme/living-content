@@ -98,23 +98,27 @@ export default {
       if (!this.touchscreen) return
       this.aboutVisible = !this.aboutVisible
     },
-    queryChannel () {
-      this.$axios.get('https://api.are.na/v2/channels/' + this.channel + '?d=' + new Date()).then((result) => {
-        this.content = result.data && result.data.contents
-        for (var i = 0; i < this.content.length; i++) {
-          var content = this.content[i]
+    queryChannel (p = 1) {
+      this.$axios.get('https://api.are.na/v2/channels/' + this.channel + '?d=' + new Date() + '&page=' + p).then((result) => {
+        let data = result.data && result.data.contents
+        for (var i = 0; i < data.length; i++) {
+          var content = data[i]
           if (content.class === 'Channel' && !content.contents) {
             this.$axios.get('https://api.are.na/v2/channels/' + content.slug + '?d=' + new Date()).then((result) => {
-              var key = this.content.findIndex((c) => {
+              var key = data.findIndex((c) => {
                 return c.id === result.data.id
               })
-              this.content[key].contents = result.data.contents
-              // this.content.splice(key, 1, result.data)
+              data[key].contents = result.data.contents
             }).catch((err) => {
               console.error(err)
               this.queryChannel()
             })
           }
+          this.content.push(content)
+        }
+
+        if (data.length === 25) {
+          this.queryChannel(p + 1)
         }
       }).catch((err) => {
         console.error(err)
